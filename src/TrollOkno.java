@@ -8,7 +8,7 @@ import java.util.Random;
  */
 public class TrollOkno extends JFrame{
     private static Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-    private Point deltaPoint = new Point(100,100);
+    private Point deltaPoint = Settings.START_MOVE_OF_WINDOW;
     private static Random rand = new Random();
     private static final Dimension WINDOW_SIZE = new Dimension(400,400);
     private static int i=0;
@@ -18,13 +18,12 @@ public class TrollOkno extends JFrame{
             pack();
             setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
             this.setTitle( "Jan Paweł II Ciebie kocha");
-            JLabel label = new JLabel(ResourceMenager.icons.get(rand.nextInt(ResourceMenager.icons.size())));
+            JLabel label = new JLabel(ResourceManager.icons.get(rand.nextInt(ResourceManager.icons.size())));
             add(label, BorderLayout.CENTER);
             setSize(WINDOW_SIZE);
             setVisible(true);
-            SuperVirus.setStartTime();
             this.setLocation(rand.nextInt((int)dim.getWidth()),rand.nextInt((int)dim.getHeight()));
-            WindowMove move = new WindowMove(this);
+            Move move = new Move(this);
             move.start();
             i++;
             System.err.println("Tworzę okno nr: "+i);
@@ -38,5 +37,33 @@ public class TrollOkno extends JFrame{
         if(dim.getWidth()-currentPoint.x<=WINDOW_SIZE.getWidth()) deltaPoint.x=-deltaPoint.x;
         if(currentPoint.y+WINDOW_SIZE.getHeight()<=dim.getHeight()) deltaPoint.y=-deltaPoint.y;
         this.setLocation(currentPoint.x+deltaPoint.x,currentPoint.y+deltaPoint.y);
+    }
+}
+class Move implements Runnable{
+    private TrollOkno gui = null;
+    private Thread t;
+
+    public Move(TrollOkno gui) {
+        this.gui = gui;
+    }
+
+    @Override
+    public void run() {
+        try {
+            while (true) {
+                gui.setCurrentLocation();
+                Thread.sleep(Settings.DELTA_TIME_OF_WINDOW_MOVE);
+            }
+        } catch (InterruptedException e) {
+            e.getMessage();
+        }
+    }
+
+    public void start() {
+        if (t == null) {
+            t = new Thread(this);
+            t.start();
+
+        }
     }
 }

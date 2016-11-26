@@ -1,7 +1,5 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -21,7 +19,6 @@ public class MainGui extends JFrame{
     private JLabel czasOdRozpoczecia;
     private JTextField a47SygnałyWytwarzaneWTextField;
     private JPanel questionPanel;
-    private Time time = new Time(this);
     private Tabelka tabelka;
 
     public MainGui(){
@@ -33,15 +30,14 @@ public class MainGui extends JFrame{
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
         tabelka = new Tabelka();
-        ResourceMenager resourceMenager = new ResourceMenager(this);
-        resourceMenager.start();
+        ResourceManager resourceManager = new ResourceManager(this);
+        resourceManager.start();
         zatwierdźButton.setEnabled(false);
         this.setVisible(true);
 
         rozpocznijButton.addActionListener(actionEvent -> {
             questionPanel.setVisible(true);
-            SuperVirus.setStartTime();
-            time.start();
+            Timekeeper.createClockThread(this,1);
             rozpocznijButton.setVisible(false);
             wynikiButton.setVisible(false);
         });
@@ -84,5 +80,9 @@ public class MainGui extends JFrame{
     }
     public void setZatwierdźButtonEnabled(boolean b){
         zatwierdźButton.setEnabled(b);
+    }
+
+    public static void main(String[] args) {
+        new MainGui();
     }
 }

@@ -6,14 +6,15 @@ import java.util.stream.Collectors;
 /**
  * Created by zekori on 25.11.16.
  */
-class ResourceMenager implements Runnable {
-    private Thread t;
-    static ArrayList<Icon> icons = new ArrayList<>();
+class ResourceManager implements Runnable {
+    private Thread thread;
+    public static ArrayList<Icon> icons = new ArrayList<>();
     private static ArrayList<URL> urls = new ArrayList<>();
     private static ArrayList<String> addresses = new ArrayList<>();
     private static MainGui gui=null;
-    private static boolean compleate =false;
-    public ResourceMenager(MainGui gui){
+    private static boolean complete =false;
+    //TODO: Możliwość jednokrotnego stworzenia klasy
+    public ResourceManager(MainGui gui){
         this.gui=gui;
     }
     @Override
@@ -21,13 +22,13 @@ class ResourceMenager implements Runnable {
         loadAddresses();
         loadUrl();
         icons.addAll(urls.stream().map(ImageIcon::new).collect(Collectors.toList()));
-        compleate=true;
+        complete =true;
         gui.setZatwierdźButtonEnabled(true);
     }
     void start() {
-        if (t == null) {
-            t = new Thread (this);
-            t.start ();
+        if (thread == null) {
+            thread = new Thread (this);
+            thread.start ();
         }
     }
     private static void loadUrl(){
@@ -47,6 +48,6 @@ class ResourceMenager implements Runnable {
         addresses.add("https://i.makeagif.com/media/9-06-2015/pF5drO.gif");
     }
     public boolean isCompleate(){
-        return compleate;
+        return complete;
     }
 }
