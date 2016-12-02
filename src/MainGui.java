@@ -9,7 +9,7 @@ import java.util.Date;
 /**
  * Created by zekori on 25.11.16.
  */
-public class MainGui extends JFrame implements KeyListener{
+public class MainGui extends JFrame implements KeyListener {
 
     private JPanel mainPanel;
     private JButton rozpocznijButton;
@@ -34,7 +34,7 @@ public class MainGui extends JFrame implements KeyListener{
         zatwierdźButton.setEnabled(false);
         pack();
         this.setVisible(true);
-
+        //System.err.println(Settings.SCREEN_DIMENSION.getWidth()+"    "+Settings.SCREEN_DIMENSION.getHeight());
         rozpocznijButton.addActionListener(actionEvent -> {
             questionPanel.setVisible(true);
             Timekeeper.createClockThread(this, 1);
@@ -107,14 +107,15 @@ public class MainGui extends JFrame implements KeyListener{
         //TODO: Naprawić
     }
 }
+
 class Score extends JDialog {
-    Score(JFrame owner){
+    Score(JFrame owner) {
         super(owner, "Wyniki", true);
         setLocationRelativeTo(null);
-        this.setLocation(Settings.SCREEN_DIMENSION.width/2-this.getSize().width/2-453, Settings.SCREEN_DIMENSION.height/2-this.getSize().height/2);
+        this.setLocation(Settings.SCREEN_DIMENSION.width / 2 - this.getSize().width / 2 - 453, Settings.SCREEN_DIMENSION.height / 2 - this.getSize().height / 2);
         JLabel label = new JLabel("Nie posiadasz jeszcze zapisanych wyników.");
         label.setFont(new Font("Serif", Font.PLAIN, 48));
-        add(label,BorderLayout.CENTER);
+        add(label, BorderLayout.CENTER);
         JButton ok = new JButton("ok");
         ok.addActionListener(e -> setVisible(false));
         add(ok, BorderLayout.SOUTH);
